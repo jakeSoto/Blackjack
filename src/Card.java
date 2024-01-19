@@ -1,19 +1,26 @@
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class Card {
+    static final int CARD_WIDTH = 110;
+    static final int CARD_HEIGHT = 154;
+
     private String value;
     private String suit;
-    private String imageName;
+    private Image cardImage;
 
 
     public Card(String value, String suit) {
         this.value = value;
         this.suit = suit;
-        setImageName();
+        setImage();
     }
 
-    private void setImageName() {
+    private void setImage() {
         char suitInitial = suit.charAt(0);
-        imageName = value + "-" + suitInitial + ".png";
+        String imageName = "./images/" + value + "-" + suitInitial + ".png";
+
+        cardImage = new ImageIcon(getClass().getResource(imageName)).getImage();
     }
 
     public boolean isAce() {
@@ -42,10 +49,11 @@ public class Card {
         }
     }
 
-    public String getImageName() {
-        return this.imageName;
+    public Image getCardImage() {
+        return this.cardImage;
     }
 
+    /*
     public String toString() {
         if (isAce()) {
             return "Ace of " + this.suit;
@@ -54,4 +62,5 @@ public class Card {
             return (this.value + " of " + this.suit);
         }
     }
+    */
 }
