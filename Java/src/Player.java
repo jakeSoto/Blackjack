@@ -11,6 +11,30 @@ public class Player {
         this.aceCount = 0;
     }
 
+    public boolean hasBlackjack() {
+        if (handTotal == 21) {
+            return true;
+        }
+        return false;
+    }
+
+    public void addCard(Card card) {
+        hand.add(card);
+        if (card.isAce()) {
+            aceCount += 1;
+        }
+
+        handTotal += card.getValue();
+    }
+
+    public void showHand() {
+
+    }
+
+    public int getAceCount() {
+        return aceCount;
+    }
+
     public boolean bust() {
         if (handTotal > 21) {
             if (aceCount > 0) {
@@ -23,15 +47,6 @@ public class Player {
 
     public int getCardCount() {
         return hand.size();
-    }
-
-    public void addCard(Card card) {
-        hand.add(card);
-        if (card.isAce()) {
-            aceCount += 1;
-        }
-
-        handTotal += card.getValue();
     }
 
 }
