@@ -15,6 +15,10 @@ public class Dealer extends Player {
         backCardImage = new ImageIcon(getClass().getResource("./images/BACK.png")).getImage();
     }
 
+    public Card getStartingHand() {
+        return hand.get(0);
+    }
+
     public Image getBlankCard() {
         return backCardImage;
     }
