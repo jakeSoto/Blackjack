@@ -52,15 +52,5 @@ public class Card {
     public Image getCardImage() {
         return this.cardImage;
     }
-
-    /*
-    public String toString() {
-        if (isAce()) {
-            return "Ace of " + this.suit;
-        }
-        else {
-            return (this.value + " of " + this.suit);
-        }
-    }
-    */
+    
 }
