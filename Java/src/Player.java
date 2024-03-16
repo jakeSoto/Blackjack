@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
 public class Player {
-    private ArrayList<Card> hand;
+    protected ArrayList<Card> hand;
     private int handTotal;
     private int aceCount;
+    private boolean busted;
 
     public Player() {
         this.hand = new ArrayList<Card>();
@@ -18,17 +19,44 @@ public class Player {
         return false;
     }
 
-    public void addCard(Card card) {
-        hand.add(card);
-        if (card.isAce()) {
-            aceCount += 1;
-        }
+    public boolean addCard(Card card) {
+        /* returns true if card is successfully added
+         * returns false if card being added busts the player's hand
+         */
+        int cardValue = card.getValue();
 
-        handTotal += card.getValue();
+        if (card.isAce()) {
+            if (aceCount > 0) {
+            }
+            else {
+                if ((handTotal + cardValue) <= 21) {
+                    hand.add(card);
+                    aceCount++;
+                    handTotal += cardValue;
+                }
+                else if ((handTotal + 1) <= 21) {
+                    hand.add(card);
+                    aceCount++;
+                    handTotal++;
+                }
+            }
+        }
+        else {
+            if ((handTotal + cardValue) <= 21) {
+                hand.add(card);
+                handTotal += cardValue;
+            }
+            else {
+                busted = true;
+                System.out.println("Busted!");
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void showHand() {
-
+    public int getHandTotal() {
+        return handTotal;
     }
 
     public int getAceCount() {
@@ -36,17 +64,9 @@ public class Player {
     }
 
     public boolean bust() {
-        if (handTotal > 21) {
-            if (aceCount > 0) {
-                return false;
-            }
-            return true;
-        }
-        return false;
+        return busted;
     }
 
-    public int getCardCount() {
-        return hand.size();
-    }
+    
 
 }
