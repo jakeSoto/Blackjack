@@ -1,8 +1,8 @@
 
 public class Blackjack {
     static int DECK_COUNT = 5;
-    private Player player;
-    private Dealer dealer;
+    public Player player;
+    public Dealer dealer;
 
     public Blackjack() {
         player = new Player();
@@ -26,12 +26,6 @@ public class Blackjack {
 
     public void hit(Player player) {
 
-    }
-
-    public void printCard(Card card, boolean player) {
-        if (player) {
-
-        }
     }
 
 }
