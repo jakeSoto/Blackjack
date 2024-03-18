@@ -18,6 +18,10 @@ public class Player {
     	return handTotal;
     }
     
+    public boolean isPlayer() {
+    	return true;
+    }
+    
     public boolean bust() {
     	if (handTotal > 21) {
     		return true;
