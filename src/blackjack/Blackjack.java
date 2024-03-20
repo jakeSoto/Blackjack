@@ -2,89 +2,99 @@ package blackjack;
 
 import java.awt.Image;
 
-public class Blackjack {
-	private static int DECK_COUNT = 5;
-	
+public class Blackjack {	
 	public Image CARD_BACK_IMAGE;
+	public static final int DEALER_IDENTIFIER = 0;
+	public static final int PLAYER_IDENTIFIER = 1;
 	
-	private Player[] players;
+	private static int DECK_COUNT = 5;
+	private Player player;
 	private Dealer dealer;
 	
 	
 	public Blackjack() {
 		/* Construct a game between a dealer and single player */
 		dealer = new Dealer(DECK_COUNT);
-		
-		players = new Player[1];
-		players[0] = new Player();
-		
 		dealer.shuffleDeck();
 		CARD_BACK_IMAGE = dealer.getCardBackImage();
+		
+		player = new Player();
 	}
-	
-	
-	public Blackjack(int playersCount) {
-		/* Construct a game between a dealer and 1 to 3 players */
-		if (playersCount > 0 && playersCount < 4) {
-			dealer = new Dealer(DECK_COUNT);
-			this.players = new Player[playersCount];
-			
-			for (int i = 0; i < playersCount; i++) {
-				players[i] = new Player();
-			}
-		}
-		else {
-			throw new IllegalArgumentException("Must have between 1 and 3 Players!");
-		}
 
-		
-		dealer.shuffleDeck();
-		CARD_BACK_IMAGE = dealer.getCardBackImage();
-	}
 	
 	
 	public void dealStartingHands() {
-		Card tempCard = null;
-		
-		for (int i = 0; i < 2; i++) {
-			tempCard = dealer.dealCard();
-			dealer.addCard(tempCard);
-			
-			for (int j = 0; j < this.players.length; j++) {
-				tempCard = dealer.dealCard();
-				players[j].addCard(tempCard);
+		// Each player gets 2 cards to start
+		for (int i = 0; i < 4; i++) {
+			if ((i  % 2) == 0) {
+				dealer.addCard(dealer.dealCard());
+			}
+			else {
+				player.addCard(dealer.dealCard());
 			}
 		}
 	}
 	
 	
 	public Card getDealerCard() {
+		// Dealer only shows the first card
 		return dealer.getDealerCard();
 	}
 
 	
 	
-	public Image[] getPlayerHandImages(int playerIndex) {
-		Player currentPlayer = players[playerIndex];
-		Image[] handImages = new Image[currentPlayer.hand.size()];
+	public Image[] getPlayerHandImages(int playerIdentifier) {
+		Player currentPlayer;
 		
-		for (int i = 0; i < currentPlayer.hand.size(); i++) {
-			handImages[i] = currentPlayer.hand.get(i).getCardImage();
+		if (playerIdentifier == DEALER_IDENTIFIER) {
+			currentPlayer = dealer;
+		}
+		else {
+			currentPlayer = player;
 		}
 		
-		return handImages;
+		Image[] cardHandImages = new Image[currentPlayer.hand.size()];
+		
+		for (int i = 0; i < currentPlayer.hand.size(); i++) {
+			cardHandImages[i] = currentPlayer.hand.get(i).getCardImage();
+		}
+		
+		return cardHandImages;
 	}
 	
 	
-	public int[] getHandTotals() {
-		int[] handTotals = new int[this.players.length + 1];
-		handTotals[0] = dealer.getHandTotal();
+	public int getHandTotal(int playerIdentifier) {
+		if (playerIdentifier == DEALER_IDENTIFIER) {
+			return dealer.getHandTotal();
+		}
+		else {
+			return player.getHandTotal();
+		}
+	}
+	
+	
+	public boolean bust(int playerIdentifier) {
+		if (playerIdentifier == DEALER_IDENTIFIER) {
+			return dealer.bust();
+		}
+		else {
+			return player.bust();
+		}
+	}
+	
+	public Card hitPlayer(int playerIdentifier) {
+		Card deltCard = dealer.dealCard();
 		
-		for (int i = 0; i < this.players.length; i++) {
-			handTotals[i+1] = players[i].getHandTotal();
+		if (playerIdentifier == DEALER_IDENTIFIER) {
+			dealer.addCard(deltCard);
+		}
+		else {
+			player.addCard(deltCard);
 		}
 		
-		return handTotals;
+		return deltCard;
 	}
 	
 }
+
+
