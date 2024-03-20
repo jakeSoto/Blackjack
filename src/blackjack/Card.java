@@ -45,7 +45,6 @@ public class Card {
     }
 	
 	
-	
 	public Image getCardImage() {
         return this.cardImage;
     }
@@ -65,7 +64,6 @@ public class Card {
             return Integer.parseInt(this.value);
         }
     }
-	
 	
 	
 	public boolean isAce() {
