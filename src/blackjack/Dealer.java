@@ -21,13 +21,6 @@ public class Dealer extends Player {
 		setCardBackImage();
 	}
 	
-	public boolean isPlayer(Dealer player) {
-		if (player == this) {
-			return false;
-		}
-		return true;
-	}
-	
 	
 	private void setCardBackImage() {
 		cardBackImage = new ImageIcon(getClass().getResource("/resources/BACK.png")).getImage();
