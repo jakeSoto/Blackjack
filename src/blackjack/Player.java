@@ -26,49 +26,47 @@ public class Player {
     }
     
     
+    private void add_card(Card card) {
+    	if (card.isAce()) {
+    		this.aceCount++;
+    	}
+    	this.hand.add(card);
+		this.handTotal += card.getValue();
+    }
+    
+    
     public void addCard(Card card) {
     	if (card.isAce()) {
     	// Card is an ace
     		if ((this.handTotal + card.getValue()) < 22) {
         	// Ace can be safely added with value 11
-    			this.hand.add(card);
-    			this.handTotal += card.getValue();
-    			this.aceCount++;
-    			System.out.println("Ace added as 11.");
+    			this.add_card(card);
     		}
     		else if ((this.handTotal + 1) < 22) {
         	// Ace cannot be safely added, attempt to add with value 1
     			card.setAceValue(1);
-    			this.hand.add(card);
-    			this.handTotal += card.getValue();
-    			this.aceCount++;
-    			System.out.println("Ace added as 1.");
+    			this.add_card(card);
     		}
     		// Ace cannot be safely added with value 1, check for existing aces
     		else if (this.aceCount > 0) {
     			boolean addedCard = false;
     			
-    			for (int i = 0; i < this.hand.size()-1; i++) {
+    			for (int i = 0; i < this.hand.size(); i++) {
     				Card cardInHand = this.hand.get(i);
     				
     				if (cardInHand.isAce() && cardInHand.getAceValue() == 11) {
     					cardInHand.setAceValue(1);
     					this.handTotal -= 10;
-    					System.out.println("Existing ace changed to 1.");
     					
 
     					if ((this.handTotal + card.getValue()) < 22) {
-    						this.hand.add(card);
-    						this.handTotal += card.getValue();
-    						this.aceCount++;
+    						this.add_card(card);
     						addedCard = true;
     						break;
     					}
     					else if ((this.handTotal + 1) < 22) {
     						card.setAceValue(1);
-    		    			this.hand.add(card);
-    		    			this.handTotal += card.getValue();
-    		    			this.aceCount++;
+    						this.add_card(card);
     		    			addedCard = true;
     		    			break;
     					}
@@ -76,44 +74,37 @@ public class Player {
     			}
     			if (!addedCard) {
     				this.bust = true;
-					this.hand.add(card);
-					this.handTotal += card.getValue();
+    				this.add_card(card);
     			}
     		}
     		else {
     		// Ace cannot be safely added, ALL existing aces contain value 1
     			this.bust = true;
-				this.hand.add(card);
-				this.handTotal += card.getValue();
-				System.out.println("Busted!");
+    			this.add_card(card);
     		}
     	}
     	else {
     	// Card is not an ace
     		if ((this.handTotal + card.getValue()) < 22) {
     		// Card can be safely added
-    			this.hand.add(card);
-    			this.handTotal += card.getValue();
+    			this.add_card(card);
     		}
     		else {
     		// Card cannot be safely added
     			if (this.aceCount > 0) {
     			// change aces
     				boolean addedCard = false;
-    				for (int i = 0; i < this.hand.size()-1; i++) {
+    				for (int i = 0; i < this.hand.size(); i++) {
         				Card cardInHand = this.hand.get(i);
         				
         				if (cardInHand.isAce() && cardInHand.getAceValue() == 11) {
         					cardInHand.setAceValue(1);
         					this.handTotal -= 10;
-        					System.out.println("Changed an ace value to 1.");
         					
         					if ((this.handTotal + card.getValue()) < 22) {
         					// if card can now be safely added, add it
-        						this.hand.add(card);
-        						this.handTotal += card.getValue();
+        						this.add_card(card);
         						addedCard = true;
-        						System.out.println("After changing ace, card was added.");
         						break;
         					}
         				}        				
@@ -121,9 +112,7 @@ public class Player {
     				if (!addedCard) {
     				// Card busts the players hand
     					this.bust = true;
-    					this.hand.add(card);
-						this.handTotal += card.getValue();
-						System.out.println("After changing aces, busted!");
+    					this.add_card(card);
     				}
     				
     				
@@ -131,9 +120,7 @@ public class Player {
     			else {
     			// Card busts the players hand
     				this.bust = true;
-					this.hand.add(card);
-					this.handTotal += card.getValue();
-					System.out.println("Busted!");
+    				this.add_card(card);
     			}
     		}
     	}
