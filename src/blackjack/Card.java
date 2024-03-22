@@ -25,7 +25,7 @@ public class Card {
         if (this.isAce()) {
         	this.setAceValue(11);
         }
-        setCardImage(this.value, suit.charAt(0));
+        setCardImage(this.value, this.suit.charAt(0));
 	}
 	
 	
@@ -41,7 +41,7 @@ public class Card {
 	
 	private void setCardImage(String value, char suitInitial) {
         String imageName = "/resources/" + value + "-" + suitInitial + ".png";
-        cardImage = new ImageIcon(getClass().getResource(imageName)).getImage();
+        this.cardImage = new ImageIcon(getClass().getResource(imageName)).getImage();
     }
 	
 	
@@ -50,7 +50,7 @@ public class Card {
     }
 	
 	public int getAceValue() {
-		return aceValue;
+		return this.aceValue;
 	}
 	
 	public int getValue() {
